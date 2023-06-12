@@ -10,7 +10,7 @@ jobs:
   compile:
     runs-on: ubuntu-latest
     environment: test
-    name: Running Java ${{ matrix.java }} compile
+    name: Auto CI and DI
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 17
@@ -31,6 +31,11 @@ jobs:
       - name: Get JAR path
         run: |
          echo jar_path=$(basename -a target/*.jar) >> "$GITHUB_ENV"
+      - name: Upload a Build Artifactuses
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: target/${{env.jar_path}}
       - name: trasmit the jar to server
         uses: garygrossgarten/github-action-scp@release
         with:
