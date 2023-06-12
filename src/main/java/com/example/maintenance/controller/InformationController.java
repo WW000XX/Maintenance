@@ -3,35 +3,33 @@ package com.example.maintenance.controller;
 import com.example.maintenance.service.InformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 @Controller
 public class InformationController {
     @Autowired
     InformationService informationService;
 
     @GetMapping("/")
-    @ResponseBody
-    public String getMessage() {
+    public String getMessage(Model model) {
         String message = informationService.getMessage();
-        return message;
+        model.addAttribute("message", message);
+        return "index";
     }
 
     @PostMapping("/")
-    @ResponseBody
-    public String setMessage(String message) {
+    public String setMessage(Model model, String message) {
         String result = informationService.setMessage(message);
-        return result;
+        model.addAttribute("message", result);
+        return "index";
     }
 
-    @PutMapping("/")
-    @ResponseBody
-    public String restMessage() {
+    @PostMapping("/rest")
+    public String restMessage(Model model) {
         String message = informationService.restMessage();
-        return message;
+        model.addAttribute("message", message);
+        return "index";
     }
 
 }
